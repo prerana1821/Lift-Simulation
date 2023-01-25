@@ -92,6 +92,7 @@ input {
   height: 30px;
   border-radius: 4px;
   background: #ffffff;
+  cursor: pointer;
   box-shadow: 4px 4px 8px #ededed, -4px -4px 8px #ffffff;
 }
 
