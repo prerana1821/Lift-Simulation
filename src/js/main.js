@@ -19,7 +19,7 @@ const generateFloors = (noOfFloors) => {
         floorInside.appendChild(floorActions)
 
         const floorActionUp = document.createElement("button")
-        floorActionUp.innerText = `Up`
+        floorActionUp.innerHTML = '<img src="./assets/up.png" />';
         floorActionUp.classList.add("floor-action-btn");
         console.log(i);
         if (i != noOfFloors) {
@@ -30,7 +30,7 @@ const generateFloors = (noOfFloors) => {
         });
 
         const floorActionDown = document.createElement("button")
-        floorActionDown.innerText = `Down`
+        floorActionDown.innerHTML = '<img src="./assets/down.png" />';
         floorActionDown.classList.add("floor-action-btn");
         if (i != 1) {
             floorActions.appendChild(floorActionDown)
