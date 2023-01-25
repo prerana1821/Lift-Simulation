@@ -137,7 +137,7 @@ const openDoors = (lift, destinationFloor) => {
 const moveLift = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
 
-    lift.style.transform = `translateY(-${6.4 * destinationFloor}rem)`;
+    lift.style.transform = `translateY(-${7 * destinationFloor}rem)`;
     lift.style.transition = `all ${distance * 2}s linear`;
     openDoors(lift, destinationFloor);
     setTimeout(() => {
