@@ -20,22 +20,24 @@ const generateFloors = (noOfFloors) => {
 
         const floorActionUp = document.createElement("button")
         floorActionUp.innerText = `Up`
-        floorActionUp.setAttribute("class", `floor-action-btn`);
-        floorActionUp.setAttribute("data-lift-num", i);
-        floorActions.appendChild(floorActionUp)
-
+        floorActionUp.classList.add("floor-action-btn");
+        console.log(i);
+        if (i != noOfFloors) {
+            floorActions.appendChild(floorActionUp)
+        }
         floorActionUp.addEventListener("click", () => {
-            liftSimulation(i);
+            liftSimulationEngine(i - 1);
         });
 
         const floorActionDown = document.createElement("button")
         floorActionDown.innerText = `Down`
-        floorActionDown.setAttribute("class", `floor-action-btn`);
-        floorActionDown.setAttribute("data-lift-num", i);
-        floorActions.appendChild(floorActionDown)
+        floorActionDown.classList.add("floor-action-btn");
+        if (i != 1) {
+            floorActions.appendChild(floorActionDown)
+        }
 
         floorActionDown.addEventListener("click", () => {
-            liftSimulation(i);
+            liftSimulationEngine(i - 1);
         });
 
         const floorNumber = document.createElement("h2")
@@ -57,6 +59,8 @@ const generateLifts = (noOfLifts) => {
 
         const lift = document.createElement("div")
         lift.classList.add("lift");
+        lift.setAttribute("data-status", "free");
+        lift.setAttribute("data-lift-num", "0");
 
         const leftDoor = document.createElement("div")
         leftDoor.classList.add("left-door");
@@ -95,12 +99,51 @@ const generateLiftsAndFloors = (e) => {
 
 generate.addEventListener("submit", generateLiftsAndFloors)
 
-const liftSimulation = (location) => {
-    console.log({ location });
+let callQueue = [];
 
-    const lift = document.getElementById("lift")
-    const floorSelected = document.querySelector(`#floor-${location}`)
+const findFreeLift = () => {
+    const liftElements = Array.from(document.querySelectorAll(".lift"));
+    return liftElements.find((lift) => lift.dataset.status === "free");
+}
 
+const liftSimulationEngine = (location) => {
+    const freeLift = findFreeLift();
+    if (freeLift) {
+        if (+freeLift.dataset.liftNum === location) {
+            openDoors(freeLift, location);
+        } else {
+            moveLift(freeLift, location);
+        }
+    } else {
+        callQueue.push(location);
+    }
+}
 
+const setStateGetDist = (lift, destinationFloor) => {
+    lift.setAttribute("data-status", "busy");
+    return Math.abs(+lift.dataset.liftNum - destinationFloor);
 
+}
+
+const openDoors = (lift, destinationFloor) => {
+    const distance = setStateGetDist(lift, destinationFloor)
+
+    setTimeout(() => {
+        lift.setAttribute("data-status", "free");
+        lift.setAttribute("data-current", destinationFloor);
+    }, distance * 2000 + 3000);
+}
+
+const moveLift = (lift, destinationFloor) => {
+    const distance = setStateGetDist(lift, destinationFloor)
+
+    lift.style.transform = `translateY(-${6.4 * destinationFloor}rem)`;
+    lift.style.transition = `all ${distance * 2}s linear`;
+    openDoors(lift, destinationFloor);
+    setTimeout(() => {
+        if (callQueue.length > 0) {
+            moveLift(lift, callQueue[0]);
+            callQueue.shift();
+        }
+    }, distance * 2000 + 3000);
 }
