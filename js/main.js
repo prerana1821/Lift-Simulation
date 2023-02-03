@@ -21,9 +21,9 @@ const generateFloors = (noOfFloors) => {
         const floorActionUp = document.createElement("button")
         floorActionUp.innerHTML = '<img src="./assets/up.png" />';
         floorActionUp.classList.add("floor-action-btn");
-        // if (i != noOfFloors) {
-        floorActions.appendChild(floorActionUp)
-        // }
+        if (i != noOfFloors) {
+            floorActions.appendChild(floorActionUp)
+        }
         floorActionUp.addEventListener("click", () => {
             liftSimulationEngine(i - 1);
         });
@@ -31,7 +31,9 @@ const generateFloors = (noOfFloors) => {
         const floorActionDown = document.createElement("button")
         floorActionDown.innerHTML = '<img src="./assets/down.png" />';
         floorActionDown.classList.add("floor-action-btn");
-        floorActions.appendChild(floorActionDown)
+        if (i != 1) {
+            floorActions.appendChild(floorActionDown)
+        }
         floorActionDown.addEventListener("click", () => {
             liftSimulationEngine(i - 1);
         });
@@ -117,6 +119,7 @@ const liftSimulationEngine = (location) => {
 
 const setStateGetDist = (lift, destinationFloor) => {
     lift.setAttribute("data-status", "busy");
+    console.log({ dist: +lift.dataset.liftNum - destinationFloor })
     return Math.abs(+lift.dataset.liftNum - destinationFloor);
 }
 
@@ -125,7 +128,6 @@ const doorAnimations = (lift) => {
     const rightDoor = lift.querySelector('.right-door');
     return { leftDoor, rightDoor };
 };
-
 
 const openDoors = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
@@ -140,12 +142,16 @@ const openDoors = (lift, destinationFloor) => {
         leftDoor.classList.remove("left-door--animation");
         rightDoor.classList.remove("right-door--animation");
         lift.setAttribute("data-status", "free");
-        lift.setAttribute("data-current", destinationFloor);
+        lift.setAttribute("data-lift-num", destinationFloor);
     }, distance * 2000 + 3000);
 }
 
 const moveLift = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
+
+    console.log({ distance });
+    console.log(`translateY(-${6.5 * destinationFloor}rem)`);
+    console.log(`all ${distance * 2}s linear`);
 
     lift.style.transform = `translateY(-${6.5 * destinationFloor}rem)`;
     lift.style.transition = `all ${distance * 2}s linear`;
