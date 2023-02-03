@@ -21,9 +21,9 @@ const generateFloors = (noOfFloors) => {
         const floorActionUp = document.createElement("button")
         floorActionUp.innerHTML = '<img src="./assets/up.png" />';
         floorActionUp.classList.add("floor-action-btn");
-        if (i != noOfFloors) {
-            floorActions.appendChild(floorActionUp)
-        }
+        // if (i != noOfFloors) {
+        floorActions.appendChild(floorActionUp)
+        // }
         floorActionUp.addEventListener("click", () => {
             liftSimulationEngine(i - 1);
         });

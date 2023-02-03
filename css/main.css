@@ -181,3 +181,23 @@ input {
     -o-transform: translateX(5.5rem);
   }
 }
+
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: small;
+  }
+
+  .floor {
+    padding: 0.5rem;
+  }
+
+  .multiple-lifts {
+    left: 3rem;
+  }
+
+  .lift {
+    width: 5.5rem;
+    height: 4.7rem;
+    margin: 0 0.6rem;
+  }
+}
