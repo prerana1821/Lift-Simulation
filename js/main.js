@@ -2,6 +2,12 @@ const generate = document.getElementById("get-floors-lifts")
 const userActions = document.getElementById("user-actions")
 const playground = document.getElementById("playground")
 
+/**
+ * Generate floors and user actions for each floor
+ * 
+ * @param {number} noOfFloors 
+ */
+
 const generateFloors = (noOfFloors) => {
 
     for (let i = noOfFloors; i > 0; i--) {
@@ -47,6 +53,12 @@ const generateFloors = (noOfFloors) => {
     }
 
 }
+
+/**
+ * Generates lifts
+ * 
+ * @param {number} noOfLifts 
+ */
 
 const generateLifts = (noOfLifts) => {
 
@@ -99,10 +111,21 @@ generate.addEventListener("submit", generateLiftsAndFloors)
 
 let callQueue = [];
 
+/**
+ * 
+ * @returns {Element | undefined} Free lift
+ */
+
 const findFreeLift = () => {
     const liftElements = Array.from(document.querySelectorAll(".lift"));
     return liftElements.find((lift) => lift.dataset.status === "free");
 }
+
+/**
+ * Engine to check whether the lift the free & whether to open doors or move lift up or down.
+ * 
+ * @param {number} location 
+ */
 
 const liftSimulationEngine = (location) => {
     const freeLift = findFreeLift();
@@ -117,17 +140,38 @@ const liftSimulationEngine = (location) => {
     }
 }
 
+/**
+ * Sets status attribute to busy and calculates the distance between two floors.
+ * 
+ * @param {Element} lift 
+ * @param {number} destinationFloor 
+ * @returns {number} distance
+ */
+
 const setStateGetDist = (lift, destinationFloor) => {
     lift.setAttribute("data-status", "busy");
     console.log({ dist: +lift.dataset.liftNum - destinationFloor })
     return Math.abs(+lift.dataset.liftNum - destinationFloor);
 }
 
+/**
+ * 
+ * @param {Element} lift 
+ * @returns {Object} containing left door and right door element 
+ */
+
 const doorAnimations = (lift) => {
     const leftDoor = lift.querySelector('.left-door');
     const rightDoor = lift.querySelector('.right-door');
     return { leftDoor, rightDoor };
 };
+
+/**
+ * Opens doors
+ * 
+ * @param {Element} lift 
+ * @param {number} destinationFloor 
+ */
 
 const openDoors = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
@@ -145,6 +189,13 @@ const openDoors = (lift, destinationFloor) => {
         lift.setAttribute("data-lift-num", destinationFloor);
     }, distance * 2000 + 3000);
 }
+
+/**
+ * Moves lifts up or down
+ * 
+ * @param {Element} lift 
+ * @param {number} destinationFloor 
+ */
 
 const moveLift = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
