@@ -84,7 +84,7 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 .floor-action-btn {
@@ -93,7 +93,7 @@ input {
   border-radius: 4px;
   background: #ffffff;
   cursor: pointer;
-  box-shadow: 4px 4px 8px #ededed, -4px -4px 8px #ffffff;
+  /* box-shadow: 4px 4px 8px #ededed, -4px -4px 8px #ffffff; */
 }
 
 #floor-1 {
@@ -113,8 +113,9 @@ input {
   border: 1px solid #000;
   display: flex;
   width: 6.5rem;
-  height: 6.5rem;
+  height: 6.25rem;
   margin: 0 1.2rem;
+  overflow: hidden;
 }
 
 .left-door {
@@ -127,4 +128,56 @@ input {
   background: #23c483;
   width: 6rem;
   margin: 0.2rem;
+}
+
+.left-door--animation,
+.right-door--animation {
+  animation: 2.5s ease-in-out;
+  -webkit-animation: 2.5s ease-in-out;
+}
+
+.left-door--animation {
+  animation-name: leftDoor;
+}
+
+.right-door--animation {
+  animation-name: rightDoor;
+}
+
+@keyframes leftDoor {
+  0%,
+  100% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-5.5rem);
+    -webkit-transform: translateX(-5.5rem);
+    -moz-transform: translateX(-5.5rem);
+    -ms-transform: translateX(-5.5rem);
+    -o-transform: translateX(-5.5rem);
+  }
+}
+
+@keyframes rightDoor {
+  0%,
+  100% {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(5.5rem);
+    -webkit-transform: translateX(5.5rem);
+    -moz-transform: translateX(5.5rem);
+    -ms-transform: translateX(5.5rem);
+    -o-transform: translateX(5.5rem);
+  }
 }

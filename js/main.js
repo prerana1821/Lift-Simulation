@@ -21,7 +21,6 @@ const generateFloors = (noOfFloors) => {
         const floorActionUp = document.createElement("button")
         floorActionUp.innerHTML = '<img src="./assets/up.png" />';
         floorActionUp.classList.add("floor-action-btn");
-        console.log(i);
         if (i != noOfFloors) {
             floorActions.appendChild(floorActionUp)
         }
@@ -32,10 +31,7 @@ const generateFloors = (noOfFloors) => {
         const floorActionDown = document.createElement("button")
         floorActionDown.innerHTML = '<img src="./assets/down.png" />';
         floorActionDown.classList.add("floor-action-btn");
-        if (i != 1) {
-            floorActions.appendChild(floorActionDown)
-        }
-
+        floorActions.appendChild(floorActionDown)
         floorActionDown.addEventListener("click", () => {
             liftSimulationEngine(i - 1);
         });
@@ -122,13 +118,27 @@ const liftSimulationEngine = (location) => {
 const setStateGetDist = (lift, destinationFloor) => {
     lift.setAttribute("data-status", "busy");
     return Math.abs(+lift.dataset.liftNum - destinationFloor);
-
 }
+
+const doorAnimations = (lift) => {
+    const leftDoor = lift.querySelector('.left-door');
+    const rightDoor = lift.querySelector('.right-door');
+    return { leftDoor, rightDoor };
+};
+
 
 const openDoors = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
+    const { leftDoor, rightDoor } = doorAnimations(lift)
 
     setTimeout(() => {
+        leftDoor.classList.add("left-door--animation");
+        rightDoor.classList.add("right-door--animation");
+    }, distance * 2000 + 500);
+
+    setTimeout(() => {
+        leftDoor.classList.remove("left-door--animation");
+        rightDoor.classList.remove("right-door--animation");
         lift.setAttribute("data-status", "free");
         lift.setAttribute("data-current", destinationFloor);
     }, distance * 2000 + 3000);
@@ -137,7 +147,7 @@ const openDoors = (lift, destinationFloor) => {
 const moveLift = (lift, destinationFloor) => {
     const distance = setStateGetDist(lift, destinationFloor)
 
-    lift.style.transform = `translateY(-${7 * destinationFloor}rem)`;
+    lift.style.transform = `translateY(-${6.5 * destinationFloor}rem)`;
     lift.style.transition = `all ${distance * 2}s linear`;
     openDoors(lift, destinationFloor);
     setTimeout(() => {
